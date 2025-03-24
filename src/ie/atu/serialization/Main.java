@@ -98,5 +98,65 @@ public class Main {
         // Print account details from toString method
         System.out.println("Deserialized Account: " + deserializedAccount);
 
+        // DIY Task 5: Game Save System
+        System.out.println("\n--- Game Save System Implementation ---");
+        
+        // Create Version 1 game save
+        GameSave gameSave = new GameSave("Player1", 1000, 5);
+        System.out.println("Creating Version 1 save:");
+        System.out.println(gameSave);
+        
+        // Save the game (serialize)
+        try (ObjectOutputStream out = new ObjectOutputStream(
+                new FileOutputStream("resources/gamesave_v1.ser"))) {
+            out.writeObject(gameSave);
+            System.out.println("Save file created successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // Try to load the game (deserialize)
+        try (ObjectInputStream in = new ObjectInputStream(
+                new FileInputStream("resources/gamesave_v1.ser"))) {
+            GameSave loadedSave = (GameSave) in.readObject();
+            System.out.println("\nLoaded game save:");
+            System.out.println(loadedSave);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("\nError loading save file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        // DIY Task 5: Game Save System - Part 2 (Version 2)
+        System.out.println("\n--- Game Save System Version 2 Implementation ---");
+        
+        // Create Version 2 game save
+        List<String> achievements = new ArrayList<>();
+        achievements.add("First Victory");
+        achievements.add("Treasure Hunter");
+        
+        GameSave gameSaveV2 = new GameSave("Player2", 2500, 10, 3600);
+        System.out.println("Creating Version 2 save:");
+        System.out.println(gameSaveV2);
+        
+        // Save the Version 2 game (serialize)
+        try (ObjectOutputStream out = new ObjectOutputStream(
+                new FileOutputStream("resources/gamesave_v2.ser"))) {
+            out.writeObject(gameSaveV2);
+            System.out.println("Version 2 save file created successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // Attempt to load the Version 1 save with Version 2 class
+        System.out.println("\nAttempting to load Version 1 save with Version 2 class:");
+        try (ObjectInputStream in = new ObjectInputStream(
+                new FileInputStream("resources/gamesave_v1.ser"))) {
+            GameSave loadedSave = (GameSave) in.readObject();
+            System.out.println("Loaded game save:");
+            System.out.println(loadedSave);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error loading save file: " + e.getMessage());
+            e.printStackTrace(System.out);
+        }
     }
 }
