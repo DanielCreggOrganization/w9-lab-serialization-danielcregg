@@ -1,4 +1,4 @@
-package ie.atu.testpackage;
+package ie.atu.serialization;
 
 public class Main {
     public static void main(String[] args) {
